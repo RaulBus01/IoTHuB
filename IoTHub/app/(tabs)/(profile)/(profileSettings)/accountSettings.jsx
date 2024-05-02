@@ -2,28 +2,66 @@ import { View, Text,StyleSheet,TextInput, Pressable } from 'react-native'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import Toast from 'react-native-toast-message';
-import { toastConfig } from '../../../../toastConfig'
-import { auth } from '../../../../config';
-import { updateEmail, updateProfile } from 'firebase/auth';
+import { toastConfig } from '../_layout'
 const AccountSettings = () => {
     
-    
-  
+    const [email, setEmail] = React.useState('johndoe@example.com');
     const [username, setUsername] = React.useState('JohnDoe');
     const [newUsername, setNewUsername] = React.useState('');
+    const [newEmail, setNewEmail] = React.useState('');
     const [isUsernameEditable, setIsUsernameEditable] = React.useState(false)
-    const [email, setEmail] = React.useState('');
-    React.useEffect(() => {
-      const user = auth.currentUser;
-      if (user) {
-       
-        setEmail(user.email);
-        setUsername(user.displayName);
-    
+    const [isEmailEditable, setIsEmailEditable] = React.useState(false)
+  
+    const handleSaveChanges = () => {
+      if(isEmailEditable)
+      {
+        if(newEmail !== '')
+        {
+          if(newEmail.includes('@') && newEmail.includes('.') && newEmail.length > 5)
+          {
+            if(email !== newEmail)
+            {
+              setEmail(newEmail);
+              setIsEmailEditable(!isEmailEditable);
+              Toast.show({
+                type: 'success',
+                text1: 'Email Changed Successfully',
+                autoHide: true,
+                })
+            }
+            else
+            {
+              Toast.show({
+                type: 'error',
+                text1: 'Email is already the same as the current one',
+                autoHide: true,
+                })
+            }
+          }
+          else
+          {
+            Toast.show({
+              type: 'error',
+              text1: 'Please enter a valid email address (e.g. abc@a.co)',
+              autoHide: true,
+              text1Style: {fontSize: 14, color: 'white'}
+              })
+          }
+        }
+        else
+        {
+          Toast.show({
+            type: 'error',
+            text1: 'Email cannot be empty',
+            autoHide: true,
+            })
+        }
+
       }
-    }, []);
-    
-    const handleSaveChanges =  async() => {
+      else
+      {
+        
+
       if(isUsernameEditable)
       {
         if(newUsername !== '')
@@ -32,17 +70,12 @@ const AccountSettings = () => {
          {
            setUsername(newUsername);
            setIsUsernameEditable(!isUsernameEditable);
-            await updateProfile(auth.currentUser, {
-            displayName: newUsername,
-            }).then(() => {
            
            Toast.show({
             type: 'success',
             text1: 'Username Changed Successfully',
             autoHide: true,
            })
-          }
-        )
 
         
           
@@ -71,7 +104,7 @@ const AccountSettings = () => {
         }
       }
       
-      
+      }
         
       
 
@@ -84,15 +117,18 @@ const AccountSettings = () => {
        
             <View style = {styles.inputView}>
               
-            <Text style={styles.textProfile}>Email </Text>
-      
-
-            
-
+              <Text style={styles.textProfile}>Email </Text>
             <View style={styles.input}>
-              <Text>
-                {email}
-              </Text>
+              <TextInput 
+                title="Username" 
+                placeholder={email}
+                onChangeText={(text) => setNewEmail(text)}
+                editable={isEmailEditable}
+                style={styles.inputArea}
+                />
+                <Pressable >
+                    {!isEmailEditable & !isUsernameEditable ? <Ionicons style={styles.logo} name="pencil" size={18} color="black" onPress={()=>setIsEmailEditable(!isEmailEditable)}/> : <Text></Text>}
+                </Pressable>
             </View>
               <Text style={styles.textProfile}>Username </Text>
               <View style={styles.input}>
@@ -104,11 +140,11 @@ const AccountSettings = () => {
                   style={styles.inputArea}
                   />
                   <Pressable >
-                    {!isUsernameEditable ? <Ionicons  style={styles.logo}name="pencil" size={18} color="black" onPress={()=>setIsUsernameEditable(!isUsernameEditable)}/> : <Text></Text>}
+                    {!isUsernameEditable & !isEmailEditable ? <Ionicons  style={styles.logo}name="pencil" size={18} color="black" onPress={()=>setIsUsernameEditable(!isUsernameEditable)}/> : <Text></Text>}
                   </Pressable>
                 </View>
                 <View style={styles.bottomButton}>
-                  <Pressable disabled={isUsernameEditable  ? false:true}style={isUsernameEditable ? styles.saveButtonActive:styles.saveButtonDisabled} onPress={handleSaveChanges}>
+                  <Pressable disabled={isUsernameEditable | isEmailEditable ? false:true}style={isUsernameEditable | isEmailEditable? styles.saveButtonActive:styles.saveButtonDisabled} onPress={handleSaveChanges}>
                   <Text style={styles.loginText}>Save</Text>
                   </Pressable>
                 </View>

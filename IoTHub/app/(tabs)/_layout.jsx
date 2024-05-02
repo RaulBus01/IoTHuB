@@ -1,38 +1,13 @@
 import React from 'react'
 import { View, Text,StyleSheet } from 'react-native'
 import { Tabs } from 'expo-router'
+import { useColorScheme } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
-import LoginScreen from '../(login)/login';
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from '../../config';
-import LoadingScreen from '../loadingScreen';
-
-
-
-
 const TabsLayout = () => {
-  const [user, setUser] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      
-      setLoading(false);
-    });
-
-    
-    return () => unsubscribe();
-  }, []);
-
-  if (loading) {
-    return <LoadingScreen />; // Replace with your loading screen component
-  }
-  const colorScheme = 'dark';
-
+const colorScheme = useColorScheme()
   return (
-       user ?
-       <Tabs sceneContainerStyle={colorScheme ==='dark' ? styles.darkStyle : styles.lightStyle}>
+    
+    <Tabs sceneContainerStyle={colorScheme ==='dark' ? styles.darkStyle : styles.lightStyle}>
         <Tabs.Screen 
           name="(home)" 
           options={{
@@ -55,14 +30,9 @@ const TabsLayout = () => {
         tabBarIcon: ({color, size}) => <Ionicons name="person" size={size} color={color} />
       }}/>
     </Tabs>
-    :
-     <LoginScreen/>
     
-
-      
   )
 }
-
 const styles = StyleSheet.create({
   darkStyle: {
     backgroundColor: "#15496f",
@@ -71,6 +41,7 @@ const styles = StyleSheet.create({
     
   },
 })
+
 
 
 

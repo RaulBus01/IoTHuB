@@ -23,7 +23,6 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
-   
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -31,7 +30,6 @@
     },
     "plugins": [
       "expo-router"
-
     ],
     "extra": {
       "router": {

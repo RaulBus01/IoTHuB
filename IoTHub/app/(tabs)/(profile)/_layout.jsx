@@ -1,8 +1,40 @@
-
+import { View, Text } from 'react-native'
 import React from 'react'
 import { Stack } from 'expo-router'
-
-
+import {BaseToast,ErrorToast} from 'react-native-toast-message';
+export const toastConfig = {
+  success: (props) => (
+    <BaseToast
+      {...props}
+      style={{ borderColor: 'green' ,backgroundColor: 'lightgreen'}}
+      contentContainerStyle={{ paddingHorizontal: 15 }}
+      text1Style={{
+        fontSize: 14,
+        color: 'white'
+      }}
+      />),
+  error: (props) => (
+    <ErrorToast
+      {...props}
+      style={{ borderLeftColor: 'red' ,backgroundColor: 'lightcoral'}}
+      contentContainerStyle={{ paddingHorizontal: 15 }}
+      text1Style={{
+        
+        color: 'white'
+      }}
+      />)
+  ,
+  info: (props) => (
+    <BaseToast
+      {...props}
+      style={{ borderColor: 'blue' ,backgroundColor: 'lightblue'}}
+      contentContainerStyle={{ paddingHorizontal: 15 }}
+      text1Style={{
+        fontSize: 14,
+        color: 'white'
+      }}
+      />)
+};
 const LayoutProfile = () => {
   return (
     <Stack>
