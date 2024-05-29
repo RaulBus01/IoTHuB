@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "wKoXW4Y9ZW4C69GpkSciA9LcjR84jKye+CwDsJ8VDjs=",
+  "Source": "IoTHubBackend",
+  "BasePath": "_content/IoTHubBackend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
