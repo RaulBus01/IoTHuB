@@ -1,0 +1,1 @@
+export {VictoryAxis, VictoryChart,VictoryTheme,VictoryBar} from 'victory';
