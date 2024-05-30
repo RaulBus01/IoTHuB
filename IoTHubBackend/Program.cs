@@ -20,6 +20,7 @@ internal class Program
             builder.Services.AddSingleton<IConfigurationService, ConfigurationService>();
             builder.Services.AddTransient<IDirectMethodService, DirectMethodService>();
             builder.Services.AddTransient<IStorageService, StorageService>();
+            builder.Services.AddTransient<INotificationService, NotificationService>();
 
 
             var app = builder.Build();

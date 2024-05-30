@@ -1,6 +1,5 @@
 using IoTHubBackend.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Devices;
 
 namespace IoTHubBackend.Controllers
 {
@@ -11,9 +10,13 @@ namespace IoTHubBackend.Controllers
         private readonly ILogger<IotController> logger;
         private readonly IDirectMethodService directMethodService;
         private readonly IConfigurationService configService;
+        private readonly INotificationService notificationService;
 
-        public IotController(ILogger<IotController> logger, IDirectMethodService iotService, IConfigurationService configService)
+        public IotController(ILogger<IotController> logger, IDirectMethodService iotService,
+            IConfigurationService configService,
+            INotificationService notificationService)
         {
+            this.notificationService = notificationService;
             this.logger = logger;
             this.directMethodService = iotService;
             this.configService = configService;
@@ -22,15 +25,19 @@ namespace IoTHubBackend.Controllers
         [HttpPost("SetConfig")]
         public async Task<ActionResult> SetConfig([FromBody] DeviceConfig deviceConfig)
         {
-            configService.SetConfig(deviceConfig.serviceClientConnectionString, 
-                deviceConfig.serviceBusConnectionString, 
-                deviceConfig.queueName, 
-                deviceConfig.eventHubCompatibleEndpoint, 
+            configService.SetConfig(
+                deviceConfig.deviceId,
+                deviceConfig.serviceClientConnectionString,
+                deviceConfig.serviceBusConnectionString,
+                deviceConfig.queueName,
+                deviceConfig.eventHubCompatibleEndpoint,
                 deviceConfig.eventHubName,
                 deviceConfig.dbConnectionString,
                 deviceConfig.dbName,
                 deviceConfig.dbContainerName,
-                deviceConfig.consumerGroup);
+                deviceConfig.consumerGroup,
+                deviceConfig.expoToken
+                );
 
             return Ok(deviceConfig);
         }
@@ -119,6 +126,20 @@ namespace IoTHubBackend.Controllers
             logger.LogInformation($"Thresholds set to {thresholds.co2Threshold}, {thresholds.tvocThreshold}, {thresholds.gasThreshold}, {thresholds.humThreshold}, {thresholds.tempThreshold}");
             return Ok();
         }
+
+        [HttpPost("SendNotif")]
+        public async Task<ActionResult> SendNotification([FromBody] NotificationData notificationData)
+        {
+            await notificationService.SendNotification(notificationData.Title, notificationData.Message);
+            return Ok();
+        }
+
+    }
+
+    public class NotificationData
+    {
+        public string Title { get; set; }
+        public string Message { get; set; }
     }
 
     public class Thresholds
