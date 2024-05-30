@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "369399481903",
+    "project_id": "iothub-e48d1",
+    "storage_bucket": "iothub-e48d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369399481903:android:364ef8bd74774be748e8da",
+        "android_client_info": {
+          "package_name": "com.laurbalaur.iothub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "369399481903-l54d3mda1rp5j53b45sbla5q433i5o8l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBZGxGxc7hD7zPoYdnrCMdBh_SSTWlqag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "369399481903-l54d3mda1rp5j53b45sbla5q433i5o8l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
